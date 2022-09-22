@@ -5,16 +5,26 @@ import styles from '../styles/modules/app.module.scss';
 
 const AppContent = () => {
     const todoList = useSelector((state) => state.todo.todoList);
-    // console.log(todoList);
+    const filterStatus = useSelector((state) => state.todo.filterStatus);
+
     const sortedTodoList = [...todoList];
     sortedTodoList.sort((a, b) => new Date(b.time) - new Date(a.time));
+
+
+    const filteredTodoList = sortedTodoList.filter(item => {
+        if (filterStatus === 'all') {
+            return true;
+        }
+        return item.status === filterStatus;
+    });
+
     return (
         <div className={styles.content__wrapper}>
-            {sortedTodoList && sortedTodoList.length > 0 ? (
-                sortedTodoList.map((todo) => (
+            {filteredTodoList && filteredTodoList.length > 0 ? (
+                filteredTodoList.map((todo) => (
                     <TodoItem key={todo.id} todo={todo}></TodoItem>
                 ))
-            ) : 'no todo found'}
+            ) : <h1 style={{color: '#646681'}}>No Todos Found :(</h1>}
         </div>
     );
 }
