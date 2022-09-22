@@ -1,16 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addTodo } from '../slices/todoSlice';
+import { addTodo, updateTodo } from '../slices/todoSlice';
 import styles from '../styles/modules/modal.module.scss';
 import { MdOutlineClose } from 'react-icons/md';
 import Button from './Button';
 import { v4 as uuid, v4 } from 'uuid';
 import toast from 'react-hot-toast';
 
-const TodoModal = ({ type, modalOpen, setModalOpen }) => {
+const TodoModal = ({ type, modalOpen, setModalOpen, todo }) => {
     const [title, setTitle] = useState('');
     const [status, setStatus] = useState('incomplete');
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (type === 'update' && todo) {
+            setTitle(todo.title);
+            setStatus(todo.status);
+        } else {
+            setTitle('');
+            setStatus('incomplete');
+        }
+    }, [type, todo, modalOpen]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (title === '') {
@@ -26,15 +37,22 @@ const TodoModal = ({ type, modalOpen, setModalOpen }) => {
                     time: new Date().toLocaleString()
                 }));
                 toast.success('Task Added Successfully');
-                setTitle('');
-                setStatus('incomplete');
-                setModalOpen(false);
             }
             if (type === 'update') {
-                console.log('Updating Task .....');
+                if (todo.title !== title || todo.status !== status) {
+                    dispatch(updateTodo({
+                        ...todo,
+                        title,
+                        status
+                    }));
+                    toast.success('Task Updated Successfully');
+                } else {
+                    toast.error('No Changes Made');
+                }
             }
-        } else {
-            toast.error(`Title shouldn't be empty`);
+            setTitle('');
+            setStatus('incomplete');
+            setModalOpen(false);
         }
     }
     return (

@@ -50,8 +50,8 @@ const TodoItem = ({ todo }) => {
                         <MdEdit />
                     </div>
                 </div>
-            </div>
-            <TodoModal type='update' modalOpen={updateModalOpen} setModalOpen={setUpdateModalOpen}></TodoModal>
+            </div> 
+            <TodoModal type='update' todo={todo} modalOpen={updateModalOpen} setModalOpen={setUpdateModalOpen}></TodoModal>
         </>
     );
 }
