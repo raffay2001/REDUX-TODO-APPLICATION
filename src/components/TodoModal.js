@@ -5,6 +5,7 @@ import styles from '../styles/modules/modal.module.scss';
 import { MdOutlineClose } from 'react-icons/md';
 import Button from './Button';
 import { v4 as uuid, v4 } from 'uuid';
+import toast from 'react-hot-toast';
 
 const TodoModal = ({ modalOpen, setModalOpen }) => {
     const [title, setTitle] = useState('');
@@ -19,6 +20,12 @@ const TodoModal = ({ modalOpen, setModalOpen }) => {
                 status,
                 time: new Date().toLocaleString()
             }));
+            toast.success('Task Added Successfully');
+            setTitle('');
+            setStatus('incomplete');
+            setModalOpen(false);
+        } else {
+            toast.error(`Title shouldn't be empty`);
         }
     }
     return (
