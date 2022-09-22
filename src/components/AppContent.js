@@ -55,5 +55,4 @@ const AppContent = () => {
         </motion.div>
     );
 }
-
 export default AppContent;
