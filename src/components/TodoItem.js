@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { deleteTodo } from '../slices/todoSlice';
 import { toast } from 'react-hot-toast';
 import TodoModal from './TodoModal';
+import CheckButton from './CheckButton';
 
 const TodoItem = ({ todo }) => {
     const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const TodoItem = ({ todo }) => {
         <>
             <div className={styles.item}>
                 <div className={styles.todoDetails}>
-                    []
+                    <CheckButton></CheckButton>
                     <div className={styles.texts}>
                         <p className={getClasses([styles.todoText, todo.status === 'complete' && styles['todoText--completed']])}>{todo.title}</p>
                         <p className={styles.time}>{format(new Date(todo.time), 'p, MM/dd/yyyy')}</p>
